@@ -7,6 +7,7 @@ export class App extends Component {
   state = {
   name: '' ,
   number: '' ,
+  filter: '',
   contacts: []
 };
 
@@ -21,7 +22,7 @@ handleSubmit = evt => {
   evt.preventDefault();
   const {name, number} = this.state
   const newContact = {
-    id: shortid.generate,
+    id: shortid.generate(),
     name: name,
     number: number,
   }
@@ -33,6 +34,13 @@ handleSubmit = evt => {
   }))
 
 };
+
+handleFilter = evt => {
+  const filterValue = evt.target.value
+  this.setState({ filter: filterValue });
+  this.contacts.filter(this.state.filter);
+
+}
 
 
 render() {
@@ -60,6 +68,9 @@ render() {
         <input type="submit" value="Create" />
 
       </form>
+      <label htmlFor="">Filter
+      <input type="text" name="filter" onChange={this.handleFilter} />
+      </label>
    <ul>
     {this.state.contacts.map(contact => (
       <li key={contact.id}>
