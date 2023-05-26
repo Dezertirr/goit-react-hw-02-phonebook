@@ -1,0 +1,57 @@
+.contactsList{
+    list-style: none;
+    margin: 15px auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    background-color: rgb(138, 43, 226);
+    border: 1px solid rgb(255, 0, 0);
+    border-radius: 15px;
+
+    box-shadow: 4px 4px 1px 1px rgba(138, 43, 226, .2);
+    transition: box-shadow 300ms cubic-bezier(.07, .73, .96, .54);
+
+}
+
+.contactsList:hover,
+.contactsList:focus {
+    transition: box-shadow 300ms cubic-bezier(.07, .73, .96, .54);
+    box-shadow: 12px 12px 2px 1px rgba(138, 43, 226, .2);
+}
+
+.constacsItem{
+    background-color: rgba(134, 26, 39, 0.799);
+    width: 200px;
+    margin: 15px;
+    border-radius: 15px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.contactName{
+color: antiquewhite;
+}
+
+.contactNumber{
+color: antiquewhite;
+}
+
+.contactBtn{
+    
+    margin: 0 auto;
+    width: 120px;
+    height: 30px;
+
+    background-color: blue;
+    color: antiquewhite;
+
+    border-radius: 10px;
+    border: 1px solid rgb(255, 0, 0);
+
+    margin: 0 auto;
+
+}

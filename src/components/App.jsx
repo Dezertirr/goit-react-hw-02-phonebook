@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import shortid from "shortid";
+import { createForm } from "./Form/Form";
+
+import { FilterLabel } from "./Filter/Filter";
+
+import { PhoneBook } from "./phonebook/PhoneBook"; 
+
 
 export class App extends Component {
   state = {
@@ -18,13 +24,22 @@ export class App extends Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-    const { name, number } = this.state;
+    const { name, number, contacts } = this.state;
+    const existingContact = contacts.find(
+      (contact) => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if(existingContact) {
+      alert ('this contact already exists')
+      return;
+    }
+
     const newContact = {
       id: shortid.generate(),
       name: name,
       number: number,
     };
-
+    
     this.setState((prevState) => ({
       contacts: [...prevState.contacts, newContact],
       name: "",
@@ -32,8 +47,7 @@ export class App extends Component {
     }));
   };
 
-  handleFilter = (evt) => {
-    const filterValue = evt.target.value;
+  handleFilter = (filterValue) => {
     this.setState({ filter: filterValue });
   };
 
@@ -44,7 +58,7 @@ export class App extends Component {
     );
   };
 
-  HandleDelete = (id) => {
+  handleDelete = (id) => {
     this.setState((prevState) => ({
       contacts: prevState.contacts.filter((contact) => {
         return contact.id !== id;
@@ -53,47 +67,15 @@ export class App extends Component {
   };
 
   render() {
+    const { name, number } = this.state;
     const filteredContacts = this.getFilteredContacts();
+    
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="">
-            Name
-            <input
-              type="text"
-              name="name"
-              value={this.state.name}
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              onChange={this.handleChange}
-            />
-          </label>
-
-          <label htmlFor="">
-            Number
-            <input
-              type="text"
-              name="number"
-              value={this.state.number}
-              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              onChange={this.handleChange}
-            />
-          </label>
-          <input type="submit" value="Create" />
-        </form>
-        <label htmlFor="">
-          Filter for name
-          <input type="text" name="filter" onChange={this.handleFilter} />
-        </label>
-        <ul>
-          {filteredContacts.map((contact) => (
-            <li key={contact.id}>
-              <h4>{contact.name}</h4>
-              <p>{contact.number}</p>
-              <button type="button" name="deleteNum" onClick={() => this.HandleDelete(contact.id)}> Delete contact</button>
-            </li>
-          ))}
-        </ul>
+        {createForm(this.handleChange, this.handleSubmit, name, number)}
+        <FilterLabel handleFilter={this.handleFilter} />
+          <PhoneBook contacts={filteredContacts} handleDelete={this.handleDelete} />
       </div>
     );
   }
